@@ -1,0 +1,15 @@
+{
+  "main": "index.js",
+  "type": "module",
+  "dependencies": {
+    "fastify": "^4.25.2",
+    "sqlite3": "^5.1.7"
+  },
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "engines": {
+    "node": "20.x",
+    "npm": ">=10.1"
+  }
+}
