@@ -1,26 +1,26 @@
 // const express = require('express');
-import Fastify from 'fastify';
+import express from 'express';
+import bodyParser from 'body-parser';
+import { secure } from './helpers/auth.js';
 import * as userShell from './shell/userShell.js';
-// const userController = require('./controllers/user.controller');
-// const healthController = require('./controllers/health.controller');
-// const authController = require('./controllers/auth.controller');
-// const msgController = require('./controllers/message.controller');
+import * as messageShell from './shell/messageShell.js';
 
-const app = Fastify({
-  logger: true
-});
+const app = express();
 
 const port = process.env.PORT || 8080;
+app.use(bodyParser.json());
 
 app.post('/check', () => ({ health: 'ok' }));
 app.post('/user',  userShell.createUserRoute);
-// app.post('/login', authController.login);
+// app.get('/test', secure, (_, res) => {
+//   res.send('you are in a secured land' + JSON.stringify(_.auth));
+//   return;
+// });
+app.post('/login', userShell.loginRoute);
+app.post('/messages', secure, messageShell.sendMessageRoute);
+app.get('/messages', secure, messageShell.getMessagesRoute);
 
-// TODO: these endpoints should be secured
-// app.post('/messages', msgController.send);
-// app.get('/messages',  msgController.get);
-
-await app.listen({ hostname: '0.0.0.0', port });
+app.listen(port);
 
 // app.listen(port, () => {
 //   console.log(`ASAPP Challenge app running on port ${port}`);

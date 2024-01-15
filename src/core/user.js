@@ -16,3 +16,9 @@ export const createUser = async (user, password, pepper) => {
 
   return { username: user, password: hashedPassword };
 };
+
+export const validateUser = async (loginData, dbUser, pepper) => {
+  const hashedPassword = hashPassword(loginData.password, pepper);
+
+  return hashedPassword === dbUser.password && loginData.username === dbUser.username;
+}
